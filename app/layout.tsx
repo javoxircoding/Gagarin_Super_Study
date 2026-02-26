@@ -1,6 +1,8 @@
 import React from "react"
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
+// 1. Script компонентини импорт қиламиз
+import Script from "next/script";
 
 import "./globals.css";
 
@@ -34,6 +36,22 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
+        {/* --- GOOGLE TAG (gtag.js) БОШЛАНДИ --- */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17934497146"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-17934497146');
+          `}
+        </Script>
+        {/* --- GOOGLE TAG ТУГАДИ --- */}
+
         {children}
       </body>
     </html>
