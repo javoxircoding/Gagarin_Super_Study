@@ -1,7 +1,6 @@
 import React from "react"
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
-// 1. Script компонентини импорт қиламиз
 import Script from "next/script";
 
 import "./globals.css";
@@ -36,21 +35,37 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
-        {/* --- GOOGLE TAG (gtag.js) БОШЛАНДИ --- */}
+        {/* --- GOOGLE TAG (gtag.js) ASOSIY SCRIPT --- */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17934497146"
           strategy="afterInteractive"
         />
+
+        {/* --- GOOGLE ANALYTICS VA KONVERSIYA FUNKSIYASI --- */}
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
+            // Asosiy identifikator
             gtag('config', 'AW-17934497146');
+
+            // --- SIZNING YANGI KONVERSIYA FUNKSIYANGIZ ---
+            window.gtag_report_conversion = function(url) {
+              var callback = function () {
+                if (typeof(url) != 'undefined') {
+                  window.location = url;
+                }
+              };
+              gtag('event', 'conversion', {
+                  'send_to': 'AW-17934497146/J56mCN-sk4AcEPrq6udC',
+                  'event_callback': callback
+              });
+              return false;
+            }
           `}
         </Script>
-        {/* --- GOOGLE TAG ТУГАДИ --- */}
 
         {children}
       </body>
